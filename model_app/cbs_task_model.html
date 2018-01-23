@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Author's List</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+        <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+        <script src="example.js"></script>
+        <script src="books.js"></script>
+        <style>.highlight{background: yellow;}</style>
+    </head>
+    <body class="bg-warning" ng-controller="myCtrl as vm" ng-app="myApp">
+        <div class="container">
+            <h3 class="text-danger">AUTHORS' LIST</h3>
+            <div class="btn-group">
+                <button ng-click ="addAuthor()" type="button" class="btn btn-default">Add</button>
+                <button ng-click="delAuthor()" type="button" class="btn btn-default">Delete</button>
+                <button ng-click="saveAuthorLS()" type="button" class="btn btn-default">Save</button>
+            </div>
+            <br>
+            <br>
+            <form ng-controller="booksCtrl" name ="vm.myForm" novalidate> 
+                <table class="table table-sm table-bordered table-hover">
+                    <tr class="text-success">
+                        <th>#</th>
+                        <th>Surname</th>
+                        <th>Name</th>
+                        <th>Patronymic</th>
+                        <th>Date of birth</th>
+                        <th>Books</th>
+                    </tr>
+                    <tr ng-repeat="author in authors">
+                        <td><input type ="checkbox" ng-model="author.isDelete"></td>
+                        <td><input ng-model="author.surname" required type="text" class="form-control"></td>
+                        <td><input ng-model="author.name" required type="text" class="form-control"></td>
+                        <td><input ng-model="author.patronymic" required type="text" class="form-control"></td>
+                        <td>
+                            <div ng-controller="DatepickerPopupDemoCtrl">
+                                <p class="input-group">
+                                    <input ng-model="author.datepicker" type="text" readonly class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <button ng-click="showBookList(author)" type="button" class="btn btn-default">List</button>    
+                        </td>
+                    </tr>
+                </table>
+                <div ng-show="showBooks" class="col-sm-8" style="background-color:lightblue; position: absolute; left:5px; top:5px;z-index:2;">
+                    <div class="btn-group">
+                        <button ng-click ="addBook()" type="button" class="btn btn-default">Add</button>
+                        <button ng-click="delBook()" type="button" class="btn btn-default">Delete</button>
+                        <button ng-click="saveBookLS()" type="button" class="btn btn-default">Save</button>
+                        <input placeholder="search..." ng-model="searchTerm" type="text" class="form-control">
+                        <ul>
+                            <li ng-repeat="book in currentAuthor.books" md-highlight-text="searchTerm">
+                            {{book.title}}
+                            </li>
+                        </ul>
+                    </div>
+                    <table class="table table-sm table-bordered table-hover">
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Genre</th>
+                            <th>Pages</th>
+                        </tr>
+                        <tr ng-repeat="book in currentAuthor.books">
+                            <td><input type ="checkbox" ng-model="book.isDelete"></td>
+                            <td><input ng-model="book.title" type="text" class="form-control"></td>
+                            <td><input ng-model="book.genre" type="text" class="form-control"></td>
+                            <td><input ng-model="book.pages" type="text" class="form-control"></td>
+                        </tr>
+                    </table>
+                    <button class="btn btn-sm btn-warning" ng-click="showBooks = false">Close</button>     
+                </div>    
+            </form>
+        </div>
+        <script>
+            var app = angular.module("myApp",['ui.bootstrap.demo','listOfBooks', 'ngMaterial']);
+            app.controller("myCtrl", function($scope){
+                $scope.authors = [];
+                var vm = this;
+                $scope.addAuthor = function(){
+                    var author = {};
+                    author.surname = "";
+                    author.name = "";
+                    author.patronymic = "";
+                    author.datepicker = "";
+                    $scope.authors.push(author); 
+                };
+                $scope.delAuthor = function(){
+                    var newArr=[];
+                    angular.forEach($scope.authors,function(v){ 
+                        if(!v.isDelete){ 
+                            newArr.push(v); 
+                        } 
+                    });  
+                    $scope.authors=newArr;
+                };
+                $scope.saveAuthorLS = function(){
+                    if(vm.myForm.$valid){
+                        localStorage.setItem('Authors', JSON.stringify($scope.authors));
+                    }
+                    else{
+                        alert("fill in all the gaps pls!");
+                    }
+                };
+            });
+        </script>
+    </body>
+</html>    
