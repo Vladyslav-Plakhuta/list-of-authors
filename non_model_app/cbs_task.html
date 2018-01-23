@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="cbs_task.css">
+        <script src="cbs_task.js"></script>
+    </head>
+    <body>
+        <div id="showHide">
+        <input id="show" type="button" value="show">
+        <input id="hide" type="button" value="hide">
+        </div>
+        <div id="responsive">
+            <table>
+                <caption><strong>AUTHORS' LIST</strong></caption>
+                <tr class="first_row">
+                    <td class="first_six_col" rowspan="2">#</td>
+                    <td class="srn" rowspan="2">Surname</td>
+                    <td class ="hide" rowspan="2">Name</td>
+                    <td class ="hide" rowspan="2">Patronymic</td>
+                    <td class ="hide" rowspan="2">Date of birth</td>
+                    <td colspan="4">Books</td>
+                </tr>
+                <tr class="first_row">
+                    <td class="first_six_col">#</td>
+                    <td class="title">title</td>
+                    <td class="genre">genre</td>
+                    <td class="pg">pg.</td>
+                </tr>
+            </table>
+        </div>
+            <br>
+            <br>
+            <br>
+        <div>
+            <fieldset>
+                <legend>Authors</legend>
+                    <input id="btnAddA" type="button" value="add">
+                    <input id="btnDelA" type="button" value="delete">
+                    <input id ="btnSaveA" type="button" value="save">
+            </fieldset>
+            <fieldset>
+                <legend>Books</legend>
+                    <input id="btnAddB" type="button" value="add">
+                    <input id="search" type="text">
+                    <input id="btnSearch" type="button" value="search">
+            </fieldset>
+        </div>
+    </body>
+</html>    
